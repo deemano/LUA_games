@@ -117,6 +117,9 @@ function Platformer (screen_width, screen_height)
 			table.insert(self.objs, {x=0,y=self.screen_height/2+32,width=self.screen_width,height=self.screen_height/2})
 			-- 2nd ground level
 			table.insert(self.objs, {x=0,y=self.screen_height*0.8,width=self.screen_width,height=self.screen_height*0.2})
+
+			-- Load the font for the instructions
+			self.instructions_font = love.graphics.newFont(13)
 		end,
 
 		-- Reset everything
@@ -230,15 +233,18 @@ function Platformer (screen_width, screen_height)
 				self.player.ground = screen_height / 2
 				self.player.y_velocity = 0
 			end
-
+			-- Walk left
 			localx = self.player["x"]
 			localy = self.player["y"]
 			if love.keyboard.isDown("a") then
 				localx = self.player["x"]-self.player["velocity"]
 			end
+			-- Walk right
 			if love.keyboard.isDown("d") then
 				localx = self.player["x"]+self.player["velocity"]
 			end
+
+			-- Jump Key
 			if love.keyboard.isDown("space") and self.player["onGround"]==true then
 				self.player["jumping"]=true
 				self.player["jumpingTimer"]=0
@@ -319,7 +325,7 @@ function Platformer (screen_width, screen_height)
 			end
 		end,
 
-		-- Add this to your Platformer table
+		-- Add the Platformer table
 		load = function(self)
 			-- Load your image file
 			self.bottom_half_image = love.graphics.newImage("intro.png") -- Replace "your_image_file.png" with your image file name
@@ -399,6 +405,18 @@ function Platformer (screen_width, screen_height)
 			-- draw island ostacle
 			self:drawCheckpoints()
 
+			-- Control Instructions text:
+			-- Set the color for the instructions text to white
+			love.graphics.setColor(1, 1, 1, 1)
+
+			-- Set the font for the instructions
+			love.graphics.setFont(self.instructions_font)
+			-- Draw the instructions
+			love.graphics.print(
+				"                                                                                                       " ..
+				"Control: D-key = Walk Right | A-key = Walk Left | Space-key = Jump",
+				10, self.screen_height - 60
+			)
 		end,
 		-- check exit button pressing
 		checkPressed = function (self, x, y, button, istouch, presses)
