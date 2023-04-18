@@ -45,6 +45,9 @@ function FastTiles ()
 		targetsHit = 0,
 		numTargets = 99,
 
+		-- Add a new property for the instructions font
+		instructions_font = love.graphics.newFont(13),
+
 		-- control states
 		init = function(self)
 			self.score = 0
@@ -224,7 +227,17 @@ function FastTiles ()
 				  love.graphics.setColor(1.0, 1.0, 1.0)
 				end
 			end
-
+			-- Control Instructions text:
+			-- Set the color for the instructions text to white
+			love.graphics.setColor(0, 0, 0, 1)
+			-- Set the font for the instructions
+			love.graphics.setFont(self.instructions_font)
+			-- Draw the instructions
+			love.graphics.print(
+				"                                                                                            " ..
+				"You are against time, so Think Fast, Click Fast! Pick the slightly different icons.",
+				10, love.graphics.getHeight() - 60
+			)
 		end,
 
 		-- Buttons pressing survey
